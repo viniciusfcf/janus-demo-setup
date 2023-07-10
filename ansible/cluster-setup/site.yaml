@@ -78,8 +78,8 @@
       path: kv/{{ item.janusinstancename }}/dev-spaces
       validate_certs: false
       data:
-        id: "{{ lookup('ansible.builtin.env', 'GITHUB_DEV_SPACES_CLIENT_ID') }}"
-        secret: "{{ lookup('ansible.builtin.env', 'GITHUB_DEV_SPACES_CLIENT_SECRET') }}"
+        id: "fdea1ed99de7198675e6"
+        secret: "d5a5fab160c4f2ee53028e1fd9f1dff785a97ca4"
       token: "{{ vault_token }}"
     register: vault_status
   - name: Populate Vault with Github Credentials
@@ -301,18 +301,45 @@
           baseUrl: "https://janus-demo.apps{{ cluster_host }}"
           catalog:
             providers:
-              github:
-                providerId:
-                  organization: "{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}"
-                  catalogPath: "/catalog-info.yaml"
-                  filters:
-                    branch: "main"
-                  schedule:
-                    frequency: { minutes: 1 }
-                    timeout: { minutes: 3 }
+              # github:
+                # providerId:
+                #   organization: "{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}"
+                #   catalogPath: "/catalog-info.yaml"
+                #   filters:
+                #     branch: "main"
+                #   schedule:
+                #     frequency: { minutes: 1 }
+                #     timeout: { minutes: 3 }
+                # wildcardProviderId:
+                #  organization: "{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}"
+                #  catalogPath: '/scaffolder-templates/**/template.yaml'
+                #  filters: # optional filters
+                #    branch: 'main' # optional string
+                #    repository: 'software-templates' # optional Regex
+                
             locations:
               - type: url
                 target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/quarkus-web-template/template.yaml
+                rules:
+                  - allow: [Template]
+              # - type: url
+              #   target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/dotnet-frontend-template/template.yaml
+              #   rules:
+              #     - allow: [Template]
+              - type: url
+                target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/go-backend-template/template.yaml
+                rules:
+                  - allow: [Template]
+              - type: url
+                target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/nodejs-backend-template/template.yaml
+                rules:
+                  - allow: [Template]
+              - type: url
+                target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/python-backend-template/template.yaml
+                rules:
+                  - allow: [Template]
+              - type: url
+                target: https://github.com/{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}/software-templates/blob/main/scaffolder-templates/spring-boot-backend-template/template.yaml
                 rules:
                   - allow: [Template]
         oauth:

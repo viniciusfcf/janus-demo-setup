@@ -121,6 +121,14 @@ backstage:
 
   ## Override Catalog with here
   catalog:
+    providers:
+      github:
+        wildcardProviderId:
+          organization: "{{ lookup('ansible.builtin.env', 'GITHUB_ORGANIZATION') }}"
+          catalogPath: '/scaffolder-templates/**/template.yaml'
+          filters: # optional filters
+            branch: 'main' # optional string
+            repository: 'software-templates' # optional Regex
     #import:
     #  entityFilename: /examples/catalog-info.yaml
     #  pullRequestBranchName: backstage-integration
